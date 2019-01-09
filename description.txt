@@ -1,0 +1,10 @@
+0 - order.cancellation
+1 - order.concern.delay
+2 - order.modification
+3 - order.status
+4 - product.browse
+5 - product.reviews
+6 - shipping.address.modification
+7 - shipping.plans.browse
+8 - store.browse
+9 - store.timing
