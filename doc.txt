@@ -1,0 +1,42 @@
+NAME: 		   Subham Sahoo
+BRANCH: 	   Engineering Physics(B. Tech 1st year)
+ENROLLMENT NO: 18122024
+
+LINK TO THE CODE: https://github.com/subham103/chatbot_query/blob/master/deep_SVM.py
+
+TEAM NAME: Torpedo
+
+MODEL USED: ANN and Linear SVM
+
+Documentation:
+	1) understanding problem statement:
+		The problem is to classify different queries of customers to ten different classes, thus it's clear that it is a multiclass classification problem. But as the input is in the form of raw text so it should be first preprocessed before using as an input for a model to learn something. 
+
+	2)	processes I followed:
+			i)cleaned the raw text.
+				I used re for removeing special characters except english characters. Splited the whole sentence to list of words. Used nltk more specifically stopwords to remove some useless words which doesnot help a model to learn or predict(like the, is, a, this etc.) and also used the PorterStemmer class for steming the words which have same meaning but occured multiple times (like--> like, liked, liking etc.)in the dataset so to minimise the number of words in the bag. 
+				Apllied same process for the test set which I am going to predict in the future.
+
+			ii)appended the train and the test list of word to one big array(clean_query1). Then using CountVectorizer class created a big matrix which contains one row for each set of query(train and test both) and one column for each set of word in the clean_query1(which contains words of both train and test data).
+			The basic idea is to count the appearance of words in each query(row) for each word in the data.
+			i.e. to count the frequency of a perticular word in a row and set it to a value and setting 0 to rest of the word.
+
+			iii)After creating the bag of model divided the rows of the train data to 'x' and that of train data to 'x_test'. Also encoded the ground truth of the train data using OneHotEncoder class so that the model got trained without giving priviladge to a perticular classifier(tags).
+
+			iv) Used deep learning(ANN model) for first training it in which I used 1445 input node in the input layer(as thats the number of different word which is in our dataset), and 727 nodes in each hidden layer with four hidden layers, and 10 output nodes in the output layer(as thats is the number of tag we nead to classify) and find this 1445/727/727/727/727/10 configuration to be most effective.Then I compiled the model and fitted it with respect to training x and onehotencoded y. I used LeakyReLU as activation function for the hidden layers as I find it to be more efficient than ReLU(rectified linear unit) and softmax activation function for the output layer as it gives the probability of a data to be of that tag or not.
+			for optimizing the cost function I used adam as an optimizer. 
+
+			v)Then I created another model linear SVM(support vector machine) and train it with the output prediction of the first model(ANN) for 'x' train(which was used for training that ANN model) with the Decoded (original) train 'y' so that to train this model and predict for test data more effectively.
+			The idea is to train the second model with respect to the first so is to predict the tags of the poor learners effectively.
+
+			vi)Then I pedicted y_pred for test data using ANN model and put its output to my second model(linear SVM).
+
+			vii) Write the corresponding index of each query of test data with the prediction given by my models(ANN and SVM).
+
+	3)	Conclusion:
+			i)the inferance is every time the data is of different form we need to convert that data to a different form which can be treated as a feature for a model.NLP(natural language processing) is the first step and the most determining step while creating a model as its form gonna decide the effectiveness of a model.
+			ii)While creating an ANN model the activation function we use And the structure we are going to use largely affects our models efficiency. Most importantly, it is not always the case that incresing the number of hidden layers and nodes in each layers is not going to incrase the efficiency always.
+			And there is no hard and first rule for the activation function, number of hidden layers and number of nodes in each layers.
+			iii) If the cross product of an input to the learned weights if is negative then ReLU has a problem called 'dying'. So to have some slope for the negative part improves the model and hence LeakyReLU might be a bit better activation function than ReLU.
+
+
